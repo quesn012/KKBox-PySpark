@@ -1,0 +1,26 @@
+INSERT OVERWRITE TABLE user_profile_export
+SELECT train.msno,
+    count(user_logs.total_secs) AS days_used,
+    count(transactions.transaction_date) AS total_transactions,
+    sum(user_logs.num_25) AS total_num_25,
+    sum(user_logs.num_50) AS total_num_50,
+    sum(user_logs.num_75) AS total_num_75,
+    sum(user_logs.num_985) AS total_num_985,
+    sum(user_logs.num_100) as total_num_100,
+    avg(user_logs.num_unq) AS avg_unique_songs,
+    avg(user_logs.total_secs) AS avg_total_secs,
+    avg(transactions.payment_plan_days) AS avg_plan_length,
+    avg(transactions.plan_list_price) AS avg_expected_plan_price,
+    avg(transactions.actual_amount_paid) AS avg_actual_plan_price,
+    max(transactions.membership_expire_date) AS max_expiration_date,
+    min(transactions.transaction_date) AS min_transaction_date,
+    max(members_v2.city) AS city,
+    max(members_v2.bd) AS age,
+    max(members_v2.gender) AS gender,
+    max(members_v2.registered_via) as registered_via,
+    max(members_v2.registration_init_time) as registration_init_time
+    FROM TRAIN
+    LEFT JOIN members_v2 ON TRAIN.msno = members_v2.msno
+    LEFT JOIN transactions ON transactions.msno = train.msno
+    LEFT JOIN user_logs ON user_logs.msno = train.msno
+    GROUP BY train.msno;

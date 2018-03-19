@@ -1,0 +1,25 @@
+CREATE TABLE user_profile_export(
+msno STRING,
+days_used BIGINT,
+total_transactions BIGINT,
+total_num_25 BIGINT,
+total_num_50 BIGINT,
+total_num_75 BIGINT,
+total_num_985 BIGINT,
+total_num_100 BIGINT,
+avg_unique_songs FLOAT,
+avg_total_secs FLOAT,
+avg_plan_lenth FLOAT,
+avg_expected_plan_price FLOAT,
+avg_actual_plan_price FLOAT,
+max_expiration_date STRING,
+min_transaction_date STRING,
+city STRING,
+age BIGINT,
+gender STRING,
+registered_via BIGINT,
+registration_init_time STRING)
+row format delimited fields terminated by ',' 
+lines terminated by '\n' 
+STORED AS TEXTFILE
+LOCATION 's3n://aws-logs-132730032279-us-east-1/final/';
